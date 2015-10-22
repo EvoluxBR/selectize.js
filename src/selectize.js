@@ -80,6 +80,8 @@ var Selectize = function($input, settings) {
 	self.setupCallbacks();
 	self.setupTemplates();
 	self.setup();
+
+        return self;
 };
 
 // mixins
@@ -1523,10 +1525,11 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {string} value
 	 * @param {boolean} [triggerDropdown]
+         * @param {boolean} [force]
 	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
-	createItem: function(input, triggerDropdown) {
+	createItem: function(input, triggerDropdown, force) {
 		var self  = this;
 		var caret = self.caretPos;
 		input = input || $.trim(self.$control_input.val() || '');
@@ -1538,7 +1541,11 @@ $.extend(Selectize.prototype, {
 			triggerDropdown = true;
 		}
 
-		if (!self.canCreate(input)) {
+                if (typeof force !== 'boolean') {
+                        force = false;
+                }
+		
+                if (!self.canCreate(input) && !force) {
 			callback();
 			return false;
 		}
