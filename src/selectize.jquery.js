@@ -125,8 +125,9 @@ $.fn.selectize = function(settings_user) {
 			}
 		}
 	};
-
-	return this.each(function() {
+        
+        var instances = [];
+	this.each(function() {
 		if (this.selectize) return;
 
 		var instance;
@@ -151,7 +152,10 @@ $.fn.selectize = function(settings_user) {
 		}
 
 		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
-	});
+                instances.push(instance);
+	}, instances);
+
+        return instances;
 };
 
 $.fn.selectize.defaults = Selectize.defaults;
